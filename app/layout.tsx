@@ -1,28 +1,23 @@
-import type { Metadata } from "next";
-import { headers } from "next/headers";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const requestHeaders = await headers();
-  const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host") ?? "localhost:3001";
-  const protocol = requestHeaders.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
-  const base = new URL(`${protocol}://${host}`);
-  return {
-    metadataBase: base,
-    title: "AlgoTradeCrypto — שני כיוונים עיצוביים חדשים",
-    description: "Signal Glass מול Algorithm Blueprint — השוואת עיצוב אינטראקטיבית.",
-    icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
-    openGraph: {
-      title: "שתי דרכים להפוך אסטרטגיה למערכת",
-      description: "Signal Glass מול Algorithm Blueprint",
-      images: [{ url: new URL("/og.png", base).toString(), width: 1200, height: 630 }],
-      locale: "he_IL",
-      type: "website",
-    },
-    twitter: { card: "summary_large_image", images: [new URL("/og.png", base).toString()] },
-  };
-}
+export const metadata: Metadata = {
+  metadataBase: new URL("https://algotradecrypto.com"),
+  title: { default: "AlgoTradeCrypto | הדרך למסחר אוטומטי בקריפטו", template: "%s | AlgoTradeCrypto" },
+  description: "למדו לבנות מערכות מסחר אוטומטי, השוו בין כלים מוכנים או קבלו פתרון אלגו מותאם אישית לקריפטו.",
+  applicationName: "AlgoTradeCrypto",
+  authors: [{ name: "אלירן כהן", url: "https://autosysfx.com/" }],
+  creator: "אלירן כהן",
+  publisher: "AlgoTradeCrypto",
+  alternates: { canonical: "/", types: { "application/rss+xml": "/feed/" } },
+  openGraph: { type: "website", locale: "he_IL", url: "/", siteName: "AlgoTradeCrypto", title: "הדרך שלך למסחר אוטומטי בקריפטו", description: "ללמוד. לבחור. לבנות. המרכז הישראלי לפתרונות מסחר אוטומטי בקריפטו.", images: [{url:"/signal-glass-og.png",width:1728,height:910,alt:"AlgoTradeCrypto — הדרך למסחר אוטומטי בקריפטו"}] },
+  twitter: { card: "summary_large_image", title: "AlgoTradeCrypto", description: "ללמוד. לבחור. לבנות מערכות מסחר אוטומטי בקריפטו.", images: ["/signal-glass-og.png"] },
+  icons: { icon: "/favicon.svg" },
+  category: "technology",
+};
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export const viewport: Viewport = { themeColor: "#050a0e", colorScheme: "dark light" };
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="he" dir="rtl"><body>{children}</body></html>;
 }

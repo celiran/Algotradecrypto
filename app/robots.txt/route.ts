@@ -1,0 +1,1 @@
+export async function GET(){const body=["User-agent: *","Allow: /","Disallow: /api/","Disallow: /checkout/","Disallow: /cart/","Disallow: /my-account/","Sitemap: https://algotradecrypto.com/sitemap.xml","Host: https://algotradecrypto.com",""] .join("\n");return new Response(body,{headers:{"Content-Type":"text/plain; charset=utf-8","Cache-Control":"public, max-age=3600"}})}
