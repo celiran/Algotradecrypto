@@ -1,4 +1,4 @@
-import Link from "next/link";
+/* eslint-disable @next/next/no-html-link-for-pages -- vinext requires full-document navigation for reliable production routing. */
 import { LegacyFooter, LegacyHeader } from "./legacy-shell";
 import "../legacy.css";
 
@@ -12,7 +12,7 @@ export default function CustomDevelopmentPage() {
         <p className="custom-dev-kicker"><i /> CUSTOM CRYPTO DEVELOPMENT / AUTOSYSFX</p>
         <h1>כשאתה רוצה להפוך את<br /><em>הרעיונות שלך לרובוט קריפטו.</em></h1>
         <p>אם יש לכם שיטה, צורך תפעולי או רעיון שדורש יותר מ־DCA או Grid — אפשר לאפיין ולבנות מערכת קריפטו שעובדת לפי הכללים, החשבונות והבקרה שלכם.</p>
-        <div className="custom-dev-actions"><Link className="custom-dev-primary" href="/צור-קשר/">לשיחת אפיון על המערכת <Arrow /></Link><a className="custom-dev-secondary" href="#process">כך נראה התהליך ↓</a></div>
+        <div className="custom-dev-actions"><a className="custom-dev-primary" href="/צור-קשר/">לשיחת אפיון על המערכת <Arrow /></a><a className="custom-dev-secondary" href="#process">כך נראה התהליך ↓</a></div>
       </div>
       <div className="custom-dev-blueprint" aria-label="תרשים רכיבי מערכת מסחר קריפטו">
         <div className="blueprint-head"><span>כך מערכת הקריפטו עובדת</span><b>SYSTEM FLOW / 01—03</b></div>
@@ -42,7 +42,7 @@ export default function CustomDevelopmentPage() {
 
     <section className="custom-dev-readiness"><div><p className="custom-dev-kicker"><i /> BEFORE THE CALL</p><h2>לא חייבים מפרט מושלם.<br />כן כדאי להביא כיוון.</h2></div><ul><li><b>מה אתם רוצים שהמערכת תזהה או תבצע?</b><span>שיטה קיימת, דוגמה ידנית או תיאור של הבעיה מספיקים להתחלה.</span></li><li><b>איפה היא אמורה לעבוד?</b><span>בורסה, TradingView, שרת, כמה חשבונות או שילוב ביניהם.</span></li><li><b>מה חייב להיות בשליטה?</b><span>חשיפה, גודל פקודה, זמני פעילות, עצירה, התראות או דוח מצב.</span></li></ul></section>
 
-    <section className="custom-dev-final"><p className="custom-dev-kicker"><i /> START WITH A CLEAR SPEC</p><h2>יש כיוון למערכת?<br /><em>בואו נבדוק מה נכון לבנות.</em></h2><p>שיחת אפיון קצרה יכולה לעזור להפריד בין רעיון, אב־טיפוס, מערכת מוכנה ופיתוח מלא.</p><Link className="custom-dev-primary" href="/צור-קשר/">לתיאום שיחת אפיון <Arrow /></Link><small>אין באמור ייעוץ השקעות או הבטחת תשואה.</small></section>
+    <section className="custom-dev-final"><p className="custom-dev-kicker"><i /> START WITH A CLEAR SPEC</p><h2>יש כיוון למערכת?<br /><em>בואו נבדוק מה נכון לבנות.</em></h2><p>שיחת אפיון קצרה יכולה לעזור להפריד בין רעיון, אב־טיפוס, מערכת מוכנה ופיתוח מלא.</p><a className="custom-dev-primary" href="/צור-קשר/">לתיאום שיחת אפיון <Arrow /></a><small>אין באמור ייעוץ השקעות או הבטחת תשואה.</small></section>
     <LegacyFooter />
   </main>;
 }
