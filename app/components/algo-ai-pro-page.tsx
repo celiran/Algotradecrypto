@@ -1,4 +1,4 @@
-import Link from "next/link";
+/* eslint-disable @next/next/no-html-link-for-pages -- vinext requires full-document navigation for reliable production routing. */
 import { LegacyFooter, LegacyHeader } from "./legacy-shell";
 import "../legacy.css";
 
@@ -38,7 +38,7 @@ export default function AlgoAiProPage() {
 
     <section id="tracks" className="algo-pro-tracks" aria-label="שני מסלולי יישום">
       <div className="algo-pro-tracks-title"><p className="algo-pro-kicker"><i /> ONE FOUNDATION, TWO DIRECTIONS</p><h2>אותה חשיבה.<br /><em>שני מסלולי יישום.</em></h2></div>
-      <article className="algo-pro-track crypto"><div className="algo-pro-track-top"><span>TRACK / 01</span><b>CRYPTO</b></div><h3>רובוטים לשוק הקריפטו</h3><p>למי שרוצים לחקור אסטרטגיה, לעבוד עם נתוני מטבעות, להבין API של בורסה ולהכיר את שכבת הבקרה סביב רובוט קריפטו.</p><ol><li><b>01</b><span>כללי אסטרטגיה ונתוני שוק</span></li><li><b>02</b><span>התראות, Webhooks וחיבורי API</span></li><li><b>03</b><span>בדיקות, ניטור ופעולה זהירה</span></li></ol><Link href="/פיתוח-מותאם/">כשצריך פיתוח קריפטו מותאם <Arrow /></Link></article>
+      <article className="algo-pro-track crypto"><div className="algo-pro-track-top"><span>TRACK / 01</span><b>CRYPTO</b></div><h3>רובוטים לשוק הקריפטו</h3><p>למי שרוצים לחקור אסטרטגיה, לעבוד עם נתוני מטבעות, להבין API של בורסה ולהכיר את שכבת הבקרה סביב רובוט קריפטו.</p><ol><li><b>01</b><span>כללי אסטרטגיה ונתוני שוק</span></li><li><b>02</b><span>התראות, Webhooks וחיבורי API</span></li><li><b>03</b><span>בדיקות, ניטור ופעולה זהירה</span></li></ol><a href="/פיתוח-מותאם/">כשצריך פיתוח קריפטו מותאם <Arrow /></a></article>
       <article className="algo-pro-track markets"><div className="algo-pro-track-top"><span>TRACK / 02</span><b>MARKETS</b></div><h3>אלגו גם מעבר לקריפטו</h3><p>אותם עקרונות של מחקר, חוקים ובדיקות יכולים לשמש גם מערכות שמתחברות לפלטפורמות מסחר אחרות, לרבות MT4 ו־MT5.</p><ol><li><b>01</b><span>מחשיבה ידנית לכללים ברורים</span></li><li><b>02</b><span>בדיקות על נתונים וסימולציה</span></li><li><b>03</b><span>הבנת מגבלות הפלטפורמה</span></li></ol><a href="https://algocourses.com/" target="_blank" rel="noopener noreferrer">למסלול דרך AlgoCourses <Arrow /></a></article>
     </section>
 
@@ -51,9 +51,9 @@ export default function AlgoAiProPage() {
 
     <section className="algo-pro-fit"><div><p className="algo-pro-kicker dark"><i /> WHO THIS IS FOR</p><h2>למי המסלול מתאים?</h2></div><div className="algo-pro-fit-grid"><article><span>מתאים אם</span><ul><li>יש לכם סקרנות להבין איך רעיון מסחר הופך לחוקים.</li><li>אתם מוכנים לבדוק, לשאול ולתרגל במקום לחפש “בוט מוכן”.</li><li>מעניין אתכם קריפטו, שווקים אחרים או החיבור ביניהם.</li></ul></article><article><span>פחות מתאים אם</span><ul><li>מחפשים הבטחת תשואה, אותות או קיצור דרך למסחר.</li><li>רוצים להפעיל מערכת בלי להבין את מגבלותיה.</li><li>לא מתכוונים להשקיע זמן בלמידה ובבדיקה.</li></ul></article></div></section>
 
-    <section className="algo-pro-bridge"><p className="algo-pro-kicker"><i /> CUSTOM DEVELOPMENT / AUTOSYSFX</p><h2>רוצים שאנחנו נפתח עבורכם<br /><em>מערכת מותאמת?</em></h2><p>אם יש לכם רעיון, שיטה או צורך בחיבור מורכב — אפשר לאפיין יחד רובוט קריפטו, כלי מחקר או מערכת לפי הכללים והתהליך שלכם.</p><Link href="/פיתוח-מותאם/">לבדוק אפשרות לפיתוח מותאם <Arrow /></Link></section>
+    <section className="algo-pro-bridge"><p className="algo-pro-kicker"><i /> CUSTOM DEVELOPMENT / AUTOSYSFX</p><h2>רוצים שאנחנו נפתח עבורכם<br /><em>מערכת מותאמת?</em></h2><p>אם יש לכם רעיון, שיטה או צורך בחיבור מורכב — אפשר לאפיין יחד רובוט קריפטו, כלי מחקר או מערכת לפי הכללים והתהליך שלכם.</p><a href="/פיתוח-מותאם/">לבדוק אפשרות לפיתוח מותאם <Arrow /></a></section>
 
-    <section className="algo-pro-final"><p className="algo-pro-kicker"><i /> LET'S FIND THE RIGHT START</p><h2>רוצים להבין אם המסלול<br /><em>מתאים למה שאתם רוצים לבנות?</em></h2><p>השאירו פרטים ונכוון אתכם בין מסלול הלימוד, עולם הקריפטו ופיתוח מותאם.</p><Link className="algo-pro-primary" href="/צור-קשר/">לעבור לצור קשר <Arrow /></Link><small>הקורס עוסק בלמידה ובכלים טכנולוגיים; אין באמור ייעוץ השקעות או הבטחת תשואה.</small></section>
+    <section className="algo-pro-final"><p className="algo-pro-kicker"><i /> LET&apos;S FIND THE RIGHT START</p><h2>רוצים להבין אם המסלול<br /><em>מתאים למה שאתם רוצים לבנות?</em></h2><p>השאירו פרטים ונכוון אתכם בין מסלול הלימוד, עולם הקריפטו ופיתוח מותאם.</p><a className="algo-pro-primary" href="/צור-קשר/">לעבור לצור קשר <Arrow /></a><small>הקורס עוסק בלמידה ובכלים טכנולוגיים; אין באמור ייעוץ השקעות או הבטחת תשואה.</small></section>
     <LegacyFooter />
   </main>;
 }

@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -16,6 +17,7 @@ async function render(path = "/", init = {}, extraEnv = {}) {
 test("renders the Signal Glass home page in Hebrew", async () => {
   const response = await render("/");
   assert.equal(response.status, 200);
+  assert.equal(response.headers.get("x-robots-tag"), "noindex, nofollow, noarchive");
   const html = await response.text();
   assert.match(html, /הדרך שלך לרובוט מסחר בקריפטו/);
   assert.match(html, /מערכות קריפטו מוכנות/);
@@ -38,6 +40,22 @@ test("renders the Signal Glass home page in Hebrew", async () => {
   assert.match(html, /href="\/אודות\/"/);
   assert.match(html, /href="\/צור-קשר\/"/);
   assert.doesNotMatch(html, /codex-preview/);
+});
+
+test("blocks preview hosts from indexing while production robots stay launch-ready", async () => {
+  const previewResponse = await render("/robots.txt");
+  assert.equal(previewResponse.status, 200);
+  assert.match(await previewResponse.text(), /Disallow: \/$/m);
+
+  const url = new URL(workerUrl);
+  url.searchParams.set("production-robots", `${process.pid}-${Date.now()}`);
+  const { default: worker } = await import(url.href);
+  const productionResponse = await worker.fetch(new Request("https://algotradecrypto.com/robots.txt"), { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } }, { waitUntil() {}, passThroughOnException() {} });
+  assert.equal(productionResponse.status, 200);
+  assert.equal(productionResponse.headers.get("x-robots-tag"), null);
+  const productionRobots = await productionResponse.text();
+  assert.match(productionRobots, /Allow: \/$/m);
+  assert.match(productionRobots, /Sitemap: https:\/\/algotradecrypto\.com\/sitemap\.xml/);
 });
 
 test("keeps the legacy blog index available", async () => {
@@ -121,7 +139,18 @@ test("sitemap contains each canonical URL once and no volatile current timestamp
   assert.equal(response.status, 200);
   const xml = await response.text();
   assert.equal((xml.match(/<loc>https:\/\/algotradecrypto\.com\/blog-2\/<\/loc>/g) ?? []).length, 1);
+  for (const slug of ["אודות", "צור-קשר", "לימוד-אלגו", "פיתוח-מותאם", "הצהרת-נגישות"]) {
+    assert.equal((xml.match(new RegExp(`<loc>https://algotradecrypto\\.com/${encodeURIComponent(slug)}/</loc>`, "g")) ?? []).length, 1);
+  }
   assert.match(xml, /2026-08-10T09:00:00\.000Z/);
+});
+
+test("uses reliable document navigation for primary contact calls to action", async () => {
+  for (const component of ["custom-development-page.tsx", "about-page.tsx", "algo-ai-pro-page.tsx"]) {
+    const source = await readFile(new URL(`../app/components/${component}`, import.meta.url), "utf8");
+    assert.doesNotMatch(source, /from ["']next\/link["']/);
+    assert.doesNotMatch(source, /<Link\b/);
+  }
 });
 
 for (const [path, text] of [

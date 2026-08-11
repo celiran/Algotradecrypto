@@ -1,4 +1,4 @@
-import Link from "next/link";
+/* eslint-disable @next/next/no-html-link-for-pages -- vinext requires full-document navigation for reliable production routing. */
 import { LegacyFooter, LegacyHeader } from "./legacy-shell";
 import "../legacy.css";
 
@@ -28,14 +28,14 @@ export default function AboutPage() {
 
     <section className="about-why">
       <div className="about-why-label"><p>WHY A SEPARATE CRYPTO SITE</p><span>01—03</span></div>
-      <div className="about-why-copy"><h2>לא כל מי שמגיע עם רעיון צריך להתחיל מפיתוח מלא.</h2><p>AlgoTradeCrypto נבנה כדי להציג מסלולים שמתאימים לעולם הקריפטו: ללמוד את הבסיס, לבחון מערכת קיימת או לאפיין פיתוח מותאם. הבחירה תלויה בשיטה, ברמת המעורבות ובמה שבאמת צריך לבנות.</p><div><Link href="/לימוד-אלגו/">ללימוד רובוטי קריפטו <Arrow /></Link><Link href="/פיתוח-מותאם/">לפיתוח מותאם <Arrow /></Link><Link href="/צור-קשר/">לשיחת אפיון <Arrow /></Link></div></div>
+      <div className="about-why-copy"><h2>לא כל מי שמגיע עם רעיון צריך להתחיל מפיתוח מלא.</h2><p>AlgoTradeCrypto נבנה כדי להציג מסלולים שמתאימים לעולם הקריפטו: ללמוד את הבסיס, לבחון מערכת קיימת או לאפיין פיתוח מותאם. הבחירה תלויה בשיטה, ברמת המעורבות ובמה שבאמת צריך לבנות.</p><div><a href="/לימוד-אלגו/">ללימוד רובוטי קריפטו <Arrow /></a><a href="/פיתוח-מותאם/">לפיתוח מותאם <Arrow /></a><a href="/צור-קשר/">לשיחת אפיון <Arrow /></a></div></div>
     </section>
 
     <section className="about-process"><div><p className="about-kicker"><i /> HOW WE WORK</p><h2>שיחה טובה מתחילה<br />במטרות, לא בסיסמאות.</h2></div><ol><li><b>01</b><div><h3>מבינים את הצורך</h3><p>מגדירים מה רוצים לחקור, לחבר או להפוך לאוטומטי.</p></div></li><li><b>02</b><div><h3>בודקים היתכנות</h3><p>מסתכלים על נתונים, פלטפורמה, מגבלות API, סיכון ותפעול.</p></div></li><li><b>03</b><div><h3>בוחרים מסלול</h3><p>למידה, כלי קיים, אב־טיפוס או פיתוח מלא — רק לאחר שיש כיוון ברור.</p></div></li></ol></section>
 
     <section className="about-standards"><p className="about-kicker dark"><i /> WORKING PRINCIPLES</p><h2>מה לא נמצא כאן.</h2><ul><li>אין הבטחות תשואה או “רובוט קסם”.</li><li>אין המלצת השקעה אישית או תחליף לייעוץ מורשה.</li><li>אין צורך למסור מפתחות API עם הרשאות משיכה.</li><li>אין סיבה להתחיל פרויקט גדול לפני שאפשר להסביר מה הוא אמור לעשות.</li></ul></section>
 
-    <section className="about-final"><p className="about-kicker"><i /> LET’S START CLEAR</p><h2>יש רעיון, שיטה או צורך תפעולי?<br /><em>בואו נדבר על הדרך הנכונה.</em></h2><Link href="/צור-קשר/">לתיאום שיחת אפיון <Arrow /></Link></section>
+    <section className="about-final"><p className="about-kicker"><i /> LET’S START CLEAR</p><h2>יש רעיון, שיטה או צורך תפעולי?<br /><em>בואו נדבר על הדרך הנכונה.</em></h2><a href="/צור-קשר/">לתיאום שיחת אפיון <Arrow /></a></section>
     <LegacyFooter />
   </main>;
 }
