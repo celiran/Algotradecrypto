@@ -5,9 +5,11 @@ import WhatsappFloatingButton from "./components/whatsapp-floating-button";
 import "./globals.css";
 
 const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const publicSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://algotradecrypto.com";
+const socialImage = "/signal-glass-og.png";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://algotradecrypto.com"),
+  metadataBase: new URL(publicSiteUrl),
   title: { default: "AlgoTradeCrypto | הדרך למסחר אוטומטי בקריפטו", template: "%s | AlgoTradeCrypto" },
   description: "למדו לבנות רובוט מסחר בקריפטו, השוו בין רובוטי קריפטו מוכנים או קבלו מערכת מסחר מותאמת אישית.",
   applicationName: "AlgoTradeCrypto",
@@ -15,9 +17,14 @@ export const metadata: Metadata = {
   creator: "אלירן כהן",
   publisher: "AlgoTradeCrypto",
   alternates: { canonical: "/", types: { "application/rss+xml": "/feed/" } },
-  openGraph: { type: "website", locale: "he_IL", url: "/", siteName: "AlgoTradeCrypto", title: "הדרך שלך למסחר אוטומטי בקריפטו", description: "ללמוד. לבחור. לבנות. המרכז הישראלי לפתרונות מסחר אוטומטי בקריפטו.", images: [{url:"/signal-glass-og.png",width:1728,height:910,alt:"AlgoTradeCrypto — הדרך למסחר אוטומטי בקריפטו"}] },
-  twitter: { card: "summary_large_image", title: "AlgoTradeCrypto", description: "ללמוד. לבחור. לבנות מערכות מסחר אוטומטי בקריפטו.", images: ["/signal-glass-og.png"] },
-  icons: { icon: "/favicon.svg" },
+  openGraph: { type: "website", locale: "he_IL", url: "/", siteName: "AlgoTradeCrypto", title: "הדרך שלך למסחר אוטומטי בקריפטו", description: "ללמוד. לבחור. לבנות. המרכז הישראלי לפתרונות מסחר אוטומטי בקריפטו.", images: [{url:socialImage,secureUrl:socialImage,width:1728,height:910,type:"image/png",alt:"AlgoTradeCrypto — הדרך למסחר אוטומטי בקריפטו"}] },
+  twitter: { card: "summary_large_image", title: "AlgoTradeCrypto", description: "ללמוד. לבחור. לבנות מערכות מסחר אוטומטי בקריפטו.", images: [{url:socialImage,alt:"AlgoTradeCrypto — הדרך למסחר אוטומטי בקריפטו"}] },
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }, { url: "/icon-192.png", sizes: "192x192", type: "image/png" }],
+    shortcut: "/favicon.svg",
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  manifest: "/site.webmanifest",
   category: "technology",
 };
 

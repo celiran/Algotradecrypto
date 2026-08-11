@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+const metadataOrigin = (process.env.NEXT_PUBLIC_SITE_URL || "https://algotradecrypto.com").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 async function render(path = "/", init = {}, extraEnv = {}) {
   const url = new URL(workerUrl);
@@ -54,7 +55,7 @@ test("renders article SEO media, semantic headings and internal discovery links"
   const response = await render(`/${slug}/`);
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.match(html, /<meta property="og:image" content="https:\/\/algotradecrypto\.com\/images\/articles\/crypto-intro-signal-glass-16x9\.webp"/);
+  assert.match(html, new RegExp(`<meta property="og:image" content="${metadataOrigin}/images/articles/crypto-intro-signal-glass-16x9\\.webp"`));
   assert.match(html, /<script id="article-\d+" type="application\/ld\+json">/);
   assert.match(html, /"@type":"BlogPosting"/);
   assert.match(html, /"image":\["https:\/\/algotradecrypto\.com\/images\/articles\/crypto-intro-signal-glass-16x9\.webp","https:\/\/algotradecrypto\.com\/images\/articles\/crypto-intro-signal-glass-4x3\.webp","https:\/\/algotradecrypto\.com\/images\/articles\/crypto-intro-signal-glass-1x1\.webp"\]/);
