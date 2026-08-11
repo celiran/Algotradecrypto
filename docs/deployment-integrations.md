@@ -8,6 +8,14 @@
 
 לפני הפעלה יש לעדכן את מדיניות הפרטיות ואת מנגנון ההסכמה לעוגיות, אם נדרש לפי אופן השימוש והדין החל.
 
+## כתובת האתר ותצוגות שיתוף
+
+הגדירו את `NEXT_PUBLIC_SITE_URL` כמשתנה build עם כתובת המקור הפעילה, ללא לוכסן בסוף. כל כתובות ה־canonical, תמונות Open Graph ותצוגות WhatsApp ייבנו מול כתובת זו. בסביבת הבדיקה הנוכחית:
+
+`https://preview.algotradecrypto.com`
+
+בעת חיבור הדומיין הראשי מחליפים את הערך ל־`https://algotradecrypto.com` ומפעילים build חדש.
+
 ## Cloudflare Turnstile
 
 1. צרו widget ל־`algotradecrypto.com` ב־Cloudflare Turnstile.

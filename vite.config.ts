@@ -14,6 +14,9 @@ const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
 const localBindingConfig = {
   main: "./worker/index.ts",
   compatibility_flags: ["nodejs_compat"],
+  // Runtime variables and secrets are managed in the Cloudflare dashboard.
+  // Preserve them when Git-connected builds deploy a new Worker version.
+  keep_vars: true,
   d1_databases: d1
     ? [
         {
