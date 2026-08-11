@@ -3,3 +3,6 @@ CONTACT_DESTINATION_EMAIL="verified-destination@example.com"
 CONTACT_FROM_EMAIL="contact@algotradecrypto.com"
 TURNSTILE_SITE_KEY="replace-with-turnstile-site-key"
 TURNSTILE_SECRET_KEY="replace-with-turnstile-secret-key"
+
+# Set this at build time to enable Google Analytics 4. Leave empty to keep analytics disabled.
+NEXT_PUBLIC_GA_MEASUREMENT_ID="G-XXXXXXXXXX"

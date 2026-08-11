@@ -30,6 +30,9 @@ test("renders the Signal Glass home page in Hebrew", async () => {
   assert.doesNotMatch(html, />EK</);
   assert.match(html, /AlgoTradeCrypto/);
   assert.match(html, /class="accessibility-toggle"/);
+  assert.match(html, /class="whatsapp-floating-button"/);
+  assert.match(html, /wa\.me\/972528249299/);
+  assert.match(html, /AlgoTradeCrypto/);
   assert.match(html, /class="risk-bar"/);
   assert.match(html, /href="\/אודות\/"/);
   assert.match(html, /href="\/צור-קשר\/"/);
