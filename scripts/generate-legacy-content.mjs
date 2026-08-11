@@ -18,6 +18,7 @@ const cleanHtml = (html = "") => html
   .replace(/\sstyle\s*=\s*("[^"]*"|'[^']*')/gi, "")
   .replace(/\sclass\s*=\s*("[^"]*"|'[^']*')/gi, "")
   .replace(/<a\s+([^>]*href=("[^"]*"|'[^']*')[^>]*)>/gi, "<a $1 rel=\"nofollow noopener\">")
+  .replace(/https?:\/\/(?:www\.)?algotradecrypto\.com/gi, "")
   .trim();
 
 const stripHtml = (html = "") => html

@@ -1,25 +1,47 @@
-import Link from "next/link";
-import Script from "next/script";
+import { getArticleImageVariants, getArticleSeo, normalizeLegacyArticleHtml } from "../content/article-seo";
+import { getEffectiveArticle } from "../content/article-overrides";
 import { legacyPosts } from "../content/legacy-content";
 import "../legacy.css";
 
 type LegacyPost = (typeof legacyPosts)[number];
 
+const absoluteUrl = (path: string) => `https://algotradecrypto.com${path}`;
+const jsonLd = (value: object) => JSON.stringify(value).replaceAll("<", "\\u003c");
+
 export function LegacyHeader() {
-  return <header className="legacy-header"><Link className="legacy-brand" href="/"><span>AT</span><b>AlgoTrade<em>Crypto</em></b></Link><nav><Link href="/">דף הבית</Link><Link href="/blog-2/">מרכז ידע</Link><a href="https://algocourses.co.il/">ללמוד לבנות</a><a href="https://autosysfx.com/">פיתוח מותאם</a></nav><a className="legacy-contact" href="https://api.whatsapp.com/send?phone=972528249299&text=%D7%94%D7%99%D7%99%20%D7%90%D7%9C%D7%99%D7%A8%D7%9F%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20AlgoTradeCrypto" target="_blank" rel="noopener">שיחת אפיון ←</a></header>;
+  return <header className="legacy-header"><a className="legacy-brand" href="/"><span>AT</span><b>AlgoTrade<em>Crypto</em></b></a><nav><a href="/">דף הבית</a><a href="/אודות/">אודות</a><a href="/blog-2/">מרכז ידע</a><a href="/לימוד-אלגו/">ללמוד לבנות</a><a href="/פיתוח-מותאם/">פיתוח מותאם</a></nav><a className="legacy-contact" href="/צור-קשר/">צור קשר ←</a></header>;
 }
 
 export function LegacyFooter() {
-  return <footer className="legacy-footer"><p>AlgoTradeCrypto — ללמוד, לבחור ולבנות מסחר אוטומטי בקריפטו.</p><nav><Link href="/אזהרת-סיכון/">אזהרת סיכון</Link><Link href="/תקנון-תנאי-שימוש-ומדיניות-פרטיות/">תנאי שימוש ופרטיות</Link><Link href="/feed/">RSS</Link></nav><small>אין באמור ייעוץ השקעות או הבטחת תשואה.</small></footer>;
+  return <footer className="legacy-footer"><p>AlgoTradeCrypto — ללמוד, לבחור ולבנות מסחר אוטומטי בקריפטו.</p><nav><a href="/אודות/">אודות</a><a href="/צור-קשר/">צור קשר</a><a href="/אזהרת-סיכון/">אזהרת סיכון</a><a href="/תקנון-תנאי-שימוש-ומדיניות-פרטיות/">תקנון ופרטיות</a><a href="/הצהרת-נגישות/">נגישות</a><a href="/feed/">RSS</a></nav><small><span>אין באמור ייעוץ השקעות או הבטחת תשואה.</span><span>אתר זה חלק מקבוצת <a href="http://www.autosysfx.com/" target="_blank" rel="noopener noreferrer">AutoSysFX</a></span></small></footer>;
 }
 
 export function ArticleCard({ post }: { post: LegacyPost }) {
-  return <article className="legacy-card"><span>{post.date ? new Intl.DateTimeFormat("he-IL",{year:"numeric",month:"long",day:"numeric"}).format(new Date(post.date)) : "מרכז הידע"}</span><h2><Link href={`/${post.slug}/`}>{post.title}</Link></h2><p>{post.excerpt.slice(0, 190)}{post.excerpt.length > 190 ? "…" : ""}</p><Link href={`/${post.slug}/`}>לקריאת המאמר ←</Link></article>;
+  const article = getEffectiveArticle(post);
+  const seo = getArticleSeo(article.slug);
+  return <article className="legacy-card"><a className="legacy-card-image" href={`/${article.slug}/`} aria-label={`לקריאת ${article.title}`}><img src={seo.image} width="1536" height="1024" loading="lazy" decoding="async" alt={seo.imageAlt}/></a><span>{article.date ? new Intl.DateTimeFormat("he-IL",{year:"numeric",month:"long",day:"numeric"}).format(new Date(article.date)) : "מרכז הידע"}</span><h2><a href={`/${article.slug}/`}>{article.title}</a></h2><p>{article.excerpt.slice(0, 190)}{article.excerpt.length > 190 ? "…" : ""}</p><a href={`/${article.slug}/`}>לקריאת המאמר ←</a></article>;
 }
 
 export function ArticlePage({ post }: { post: LegacyPost }) {
-  const canonical = `https://algotradecrypto.com/${post.slug}/`;
-  const articleSchema = {"@context":"https://schema.org","@type":"Article",headline:post.title,description:post.excerpt,datePublished:post.date,dateModified:post.modified,mainEntityOfPage:canonical,author:{"@type":"Person",name:"אלירן כהן"},publisher:{"@type":"Organization",name:"AlgoTradeCrypto"}};
-  const breadcrumbSchema = {"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:[{"@type":"ListItem",position:1,name:"דף הבית",item:"https://algotradecrypto.com/"},{"@type":"ListItem",position:2,name:"מרכז ידע",item:"https://algotradecrypto.com/blog-2/"},{"@type":"ListItem",position:3,name:post.title,item:canonical}]};
-  return <main className="legacy-site"><Script id={`article-${post.id}`} type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(articleSchema)}}/><Script id={`breadcrumbs-${post.id}`} type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(breadcrumbSchema)}}/><LegacyHeader/><article className="article-page"><div className="article-hero"><p>ALGO KNOWLEDGE / {post.date ? new Date(post.date).getFullYear() : "ARCHIVE"}</p><h1>{post.title}</h1><div><span>מאת אלירן כהן</span><time dateTime={post.date ?? undefined}>{post.date ? new Intl.DateTimeFormat("he-IL",{year:"numeric",month:"long",day:"numeric"}).format(new Date(post.date)) : ""}</time></div></div><div className="article-layout"><div className="article-body" dangerouslySetInnerHTML={{__html:post.content}}/><aside><b>חשוב לדעת</b><p>התוכן נועד ללמידה כללית ואינו מהווה ייעוץ השקעות. יש לבדוק מידע עדכני לפני חיבור חשבון או API.</p><Link href="/blog-2/">חזרה למרכז הידע ←</Link></aside></div></article><LegacyFooter/></main>;
+  const article = getEffectiveArticle(post);
+  const canonical = absoluteUrl(`/${article.slug}/`);
+  const seo = getArticleSeo(article.slug);
+  const imageVariants = getArticleImageVariants(seo.image);
+  const schemaImages = [imageVariants.wide, imageVariants.standard, imageVariants.square].map(absoluteUrl);
+  const relatedPosts = legacyPosts.filter((item) => seo.related.includes(item.slug));
+  const articleSchema = {"@context":"https://schema.org","@type":"BlogPosting",headline:article.title,description:article.excerpt,image:schemaImages,datePublished:article.date,dateModified:article.modified,inLanguage:"he-IL",mainEntityOfPage:{"@type":"WebPage","@id":canonical},author:{"@type":"Person",name:"אלירן כהן",url:"https://algotradecrypto.com/אודות/"},publisher:{"@type":"Organization",name:"AlgoTradeCrypto",url:"https://algotradecrypto.com/",logo:{"@type":"ImageObject",url:"https://algotradecrypto.com/signal-glass-og.png"}}};
+  const breadcrumbSchema = {"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:[{"@type":"ListItem",position:1,name:"דף הבית",item:"https://algotradecrypto.com/"},{"@type":"ListItem",position:2,name:"מרכז ידע",item:"https://algotradecrypto.com/blog-2/"},{"@type":"ListItem",position:3,name:article.title,item:canonical}]};
+
+  return <main className="legacy-site">
+    <script id={`article-${post.id}`} type="application/ld+json" dangerouslySetInnerHTML={{__html:jsonLd(articleSchema)}}/>
+    <script id={`breadcrumbs-${post.id}`} type="application/ld+json" dangerouslySetInnerHTML={{__html:jsonLd(breadcrumbSchema)}}/>
+    <LegacyHeader/>
+    <article className="article-page">
+      <div className="article-hero"><nav className="article-breadcrumbs" aria-label="פירורי לחם"><a href="/">דף הבית</a><span aria-hidden="true">←</span><a href="/blog-2/">מרכז ידע</a></nav><p>ALGO KNOWLEDGE / {article.modified ? new Date(article.modified).getFullYear() : "ARCHIVE"}</p><h1>{article.title}</h1><div><span>מאת <a href="/אודות/">אלירן כהן</a></span><time dateTime={article.modified ?? article.date ?? undefined}>עודכן {article.modified ? new Intl.DateTimeFormat("he-IL",{year:"numeric",month:"long",day:"numeric"}).format(new Date(article.modified)) : article.date ? new Intl.DateTimeFormat("he-IL",{year:"numeric",month:"long",day:"numeric"}).format(new Date(article.date)) : ""}</time></div></div>
+      <figure className="article-featured-image"><img src={seo.image} width="1536" height="1024" decoding="async" fetchPriority="high" alt={seo.imageAlt}/></figure>
+      <div className="article-layout"><div className="article-body" dangerouslySetInnerHTML={{__html:normalizeLegacyArticleHtml(article.content)}}/><aside><b>חשוב לדעת</b><p>התוכן נועד ללמידה כללית ואינו מהווה ייעוץ השקעות. יש לבדוק מידע עדכני לפני חיבור חשבון או API.</p><a href="/blog-2/">חזרה למרכז הידע ←</a></aside></div>
+      {relatedPosts.length > 0 && <section className="related-articles" aria-labelledby="related-title"><div><p>המשך קריאה</p><h2 id="related-title">מאמרים קשורים</h2></div><div className="related-grid">{relatedPosts.map((item) => <ArticleCard post={item} key={item.id}/>)}</div></section>}
+    </article>
+    <LegacyFooter/>
+  </main>;
 }

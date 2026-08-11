@@ -1,12 +1,13 @@
 import type { Metadata, Viewport } from "next";
+import AccessibilityTools from "./components/accessibility-tools";
 import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://algotradecrypto.com"),
   title: { default: "AlgoTradeCrypto | הדרך למסחר אוטומטי בקריפטו", template: "%s | AlgoTradeCrypto" },
-  description: "למדו לבנות מערכות מסחר אוטומטי, השוו בין כלים מוכנים או קבלו פתרון אלגו מותאם אישית לקריפטו.",
+  description: "למדו לבנות רובוט מסחר בקריפטו, השוו בין רובוטי קריפטו מוכנים או קבלו מערכת מסחר מותאמת אישית.",
   applicationName: "AlgoTradeCrypto",
-  authors: [{ name: "אלירן כהן", url: "https://autosysfx.com/" }],
+  authors: [{ name: "אלירן כהן", url: "/אודות/" }],
   creator: "אלירן כהן",
   publisher: "AlgoTradeCrypto",
   alternates: { canonical: "/", types: { "application/rss+xml": "/feed/" } },
@@ -19,5 +20,5 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#050a0e", colorScheme: "dark light" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="he" dir="rtl"><body>{children}</body></html>;
+  return <html lang="he" dir="rtl"><body><div id="main-content">{children}</div><AccessibilityTools/></body></html>;
 }

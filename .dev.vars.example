@@ -1,0 +1,5 @@
+# Copy to .dev.vars for local Cloudflare testing. Never commit real secrets.
+CONTACT_DESTINATION_EMAIL="verified-destination@example.com"
+CONTACT_FROM_EMAIL="contact@algotradecrypto.com"
+TURNSTILE_SITE_KEY="replace-with-turnstile-site-key"
+TURNSTILE_SECRET_KEY="replace-with-turnstile-secret-key"
