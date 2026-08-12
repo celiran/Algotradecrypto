@@ -1,4 +1,5 @@
 import Script from "next/script";
+import { SiteFooter } from "./components/legacy-shell";
 import { legacyPosts } from "./content/legacy-content";
 import "./site.css";
 
@@ -118,7 +119,7 @@ export default function Home() {
 
       <section className="final-cta"><p className="eyebrow"><i/> START YOUR CRYPTO BOT</p><h2>לא בטוח איך להתקדם בעולם האלגו בקריפטו? דבר איתנו.</h2><p>בשיחת אפיון קצרה נבין אם נכון ללמוד לבנות, לבחור רובוט מוכן או לפתח מערכת קריפטו מותאמת.</p><a className="button primary" href={whatsapp} target="_blank" rel="noopener">בוא נדבר על רובוט הקריפטו שלך <Arrow/></a><small>שיחה ראשונית ללא התחייבות · WhatsApp</small></section>
 
-      <footer className="site-footer"><Logo/><p>למידה, בחירה ופיתוח של מערכות מסחר אוטומטי בקריפטו.</p><nav><a href="/אודות/">אודות</a><a href="/צור-קשר/">צור קשר</a><a href="/blog-2/">מרכז ידע</a><a href="/אזהרת-סיכון/">אזהרת סיכון</a><a href="/תקנון-תנאי-שימוש-ומדיניות-פרטיות/">תקנון ופרטיות</a><a href="/הצהרת-נגישות/">נגישות</a></nav><small><span>© {new Date().getFullYear()} AlgoTradeCrypto · אין באמור ייעוץ השקעות או הבטחת תשואה.</span><span>אתר זה חלק מקבוצת <a href="http://www.autosysfx.com/" target="_blank" rel="noopener noreferrer">AutoSysFX</a></span></small></footer>
+      <SiteFooter/>
     </main>
   );
 }

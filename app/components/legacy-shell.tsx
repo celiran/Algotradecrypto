@@ -12,8 +12,12 @@ export function LegacyHeader() {
   return <header className="legacy-header"><a className="legacy-brand" href="/"><span>AT</span><b>AlgoTrade<em>Crypto</em></b></a><nav><a href="/">דף הבית</a><a href="/אודות/">אודות</a><a href="/blog-2/">מרכז ידע</a><a href="/לימוד-אלגו/">ללמוד לבנות</a><a href="/פיתוח-מותאם/">פיתוח מותאם</a></nav><a className="legacy-contact" href="/צור-קשר/">צור קשר ←</a></header>;
 }
 
+export function SiteFooter() {
+  return <footer className="unified-footer"><div className="unified-footer-main"><div className="unified-footer-identity"><a className="unified-footer-brand" href="/" aria-label="AlgoTradeCrypto — דף הבית"><span>AT</span><b>AlgoTrade<em>Crypto</em></b></a><p>למידה, בחירה ופיתוח של מערכות מסחר אוטומטי בקריפטו.</p></div><nav aria-label="קישורים בתחתית האתר"><a href="/אודות/">אודות</a><a href="/צור-קשר/">צור קשר</a><a href="/blog-2/">מרכז ידע</a><a href="/אזהרת-סיכון/">אזהרת סיכון</a><a href="/תקנון-תנאי-שימוש-ומדיניות-פרטיות/">תקנון ופרטיות</a><a href="/הצהרת-נגישות/">נגישות</a></nav></div><small><span>© {new Date().getFullYear()} AlgoTradeCrypto · אין באמור ייעוץ השקעות או הבטחת תשואה.</span><span>אתר זה חלק מקבוצת <a href="http://www.autosysfx.com/" target="_blank" rel="noopener noreferrer">AutoSysFX</a></span></small></footer>;
+}
+
 export function LegacyFooter() {
-  return <footer className="legacy-footer"><p>AlgoTradeCrypto — ללמוד, לבחור ולבנות מסחר אוטומטי בקריפטו.</p><nav><a href="/אודות/">אודות</a><a href="/צור-קשר/">צור קשר</a><a href="/אזהרת-סיכון/">אזהרת סיכון</a><a href="/תקנון-תנאי-שימוש-ומדיניות-פרטיות/">תקנון ופרטיות</a><a href="/הצהרת-נגישות/">נגישות</a><a href="/feed/">RSS</a></nav><small><span>אין באמור ייעוץ השקעות או הבטחת תשואה.</span><span>אתר זה חלק מקבוצת <a href="http://www.autosysfx.com/" target="_blank" rel="noopener noreferrer">AutoSysFX</a></span></small></footer>;
+  return <SiteFooter/>;
 }
 
 export function ArticleCard({ post }: { post: LegacyPost }) {

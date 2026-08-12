@@ -168,6 +168,18 @@ for (const [path, text] of [
   });
 }
 
+test("uses one fixed footer structure across the home, articles and service pages", async () => {
+  for (const path of ["/", "/blog-2/", `/${encodeURIComponent("מבוא-לקריפטו-מדריך-מקיף-למתחילים")}/`, "/%D7%9C%D7%99%D7%9E%D7%95%D7%93-%D7%90%D7%9C%D7%92%D7%95/"]) {
+    const response = await render(path);
+    assert.equal(response.status, 200);
+    const html = await response.text();
+    assert.match(html, /class="unified-footer"/);
+    assert.match(html, /class="unified-footer-brand"/);
+    assert.match(html, /href="\/blog-2\/">מרכז ידע<\/a>/);
+    assert.match(html, /אתר זה חלק מקבוצת/);
+  }
+});
+
 test("renders the custom crypto development service page with depth and AI guardrails", async () => {
   const response = await render("/%D7%A4%D7%99%D7%AA%D7%95%D7%97-%D7%9E%D7%95%D7%AA%D7%90%D7%9D/");
   assert.equal(response.status, 200);
