@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import { ArticleCard, ArticlePage, LegacyFooter, LegacyHeader } from "../components/legacy-shell";
+import { CookiePrivacyDisclosure } from "../components/cookie-consent";
 import { excerptForMetadata, getArticleImageVariants, getArticleSeo } from "../content/article-seo";
 import { getEffectiveArticle } from "../content/article-overrides";
 import { infoRoutes } from "../content/info-routes";
@@ -24,7 +25,7 @@ export async function generateMetadata({params}:Props):Promise<Metadata>{
 export default async function LegacyRoute({params}:Props){
   const parts=normalize((await params).slug);const info=infoRoutes[parts[0]];if(info)return info.content();
   const post=findPost(parts);if(post){if(parts.length>1)permanentRedirect(`/${encodeURIComponent(post.slug)}/`);return <ArticlePage post={post}/>;}
-  const page=findPage(parts);if(page)return <main className="legacy-site"><LegacyHeader/><article className="legacy-page"><p className="eyebrow dark">LEGACY PAGE</p><h1>{page.title}</h1><div className="legacy-page-body" dangerouslySetInnerHTML={{__html:page.content}}/></article><LegacyFooter/></main>;
+  const page=findPage(parts);if(page)return <main className="legacy-site"><LegacyHeader/><article className="legacy-page"><p className="eyebrow dark">LEGACY PAGE</p><h1>{page.title}</h1>{page.slug==="תקנון-תנאי-שימוש-ומדיניות-פרטיות"&&<CookiePrivacyDisclosure/>}<div className="legacy-page-body" dangerouslySetInnerHTML={{__html:page.content}}/></article><LegacyFooter/></main>;
   const isArchive=parts[0]==="tag"||parts[0]==="category"||parts[0]==="author"||(parts[0]==="blog-2"&&parts[1]==="2");
   if(isArchive){const label=parts[0]==="blog-2"?"מרכז הידע — עמוד 2":parts.at(-1)?.replaceAll("-"," ");return <main className="legacy-site"><LegacyHeader/><section className="archive-title"><p>LEGACY ARCHIVE</p><h1>{label}</h1></section><section className="blog-grid archive-grid">{legacyPosts.map(item=><ArticleCard post={item} key={item.id}/>)}</section><LegacyFooter/></main>}
   notFound();

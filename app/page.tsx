@@ -61,7 +61,7 @@ export default function Home() {
       <header className="site-header">
         <Logo />
         <nav aria-label="ניווט ראשי"><a href="/">דף הבית</a><a href="/אודות/">אודות</a><a href="/blog-2/">מרכז ידע</a><a href="/לימוד-אלגו/">ללמוד לבנות</a><a href="/פיתוח-מותאם/">פיתוח מותאם</a></nav>
-        <a className="header-cta" href="/צור-קשר/">שיחת אפיון <Arrow/></a>
+        <a className="header-cta" href="/צור-קשר/">צור קשר <Arrow/></a>
       </header>
 
       <section className="hero" id="top">

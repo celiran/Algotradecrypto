@@ -20,6 +20,7 @@ test("renders the Signal Glass home page in Hebrew", async () => {
   assert.equal(response.headers.get("x-robots-tag"), "noindex, nofollow, noarchive");
   const html = await response.text();
   assert.match(html, /הדרך שלך לרובוט מסחר בקריפטו/);
+  assert.match(html, /class="header-cta" href="\/צור-קשר\/">צור קשר/);
   assert.match(html, /מערכות קריפטו מוכנות/);
   assert.match(html, /תחת בנייה/);
   assert.match(html, /BOT EQUITY \/ BTC-USDT/);
@@ -256,4 +257,25 @@ test("keeps the legacy legal and risk pages available", async () => {
   ]) {
     assert.equal((await render(path)).status, 200);
   }
+});
+
+test("includes cookie disclosure in the privacy policy and keeps analytics behind consent", async () => {
+  const response = await render("/%D7%AA%D7%A7%D7%A0%D7%95%D7%9F-%D7%AA%D7%A0%D7%90%D7%99-%D7%A9%D7%99%D7%9E%D7%95%D7%A9-%D7%95%D7%9E%D7%93%D7%99%D7%A0%D7%99%D7%95%D7%AA-%D7%A4%D7%A8%D7%98%D7%99%D7%95%D7%AA/");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /קוקיז והעדפות מדידה/);
+  assert.match(html, /Google Analytics/);
+  assert.match(html, /עד שישה חודשים/);
+
+  const layoutSource = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
+  const consentSource = await readFile(new URL("../app/components/cookie-consent.tsx", import.meta.url), "utf8");
+  const globalStyles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  assert.doesNotMatch(layoutSource, /googletagmanager\.com/);
+  assert.match(layoutSource, /<CookieConsent/);
+  assert.match(consentSource, /analytics_storage: analytics \? "granted" : "denied"/);
+  assert.match(consentSource, /חיוניים בלבד/);
+  assert.match(consentSource, /דחיית Analytics/);
+  assert.doesNotMatch(globalStyles, /\.site-footer,\.legacy-footer\{padding-bottom:/);
+  assert.match(globalStyles, /\.whatsapp-floating-button\{position:fixed;z-index:120;right:18px;bottom:118px/);
+  assert.doesNotMatch(globalStyles, /data-cookie-banner-open[^}]+visibility:hidden/);
 });
