@@ -59,6 +59,15 @@ test("blocks preview hosts from indexing while production robots stay launch-rea
   assert.match(productionRobots, /Sitemap: https:\/\/algotradecrypto\.com\/sitemap\.xml/);
 });
 
+test("redirects the www host to the canonical root domain", async () => {
+  const url = new URL(workerUrl);
+  url.searchParams.set("www-redirect", `${process.pid}-${Date.now()}`);
+  const { default: worker } = await import(url.href);
+  const response = await worker.fetch(new Request("https://www.algotradecrypto.com/צור-קשר/?source=www"), { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } }, { waitUntil() {}, passThroughOnException() {} });
+  assert.equal(response.status, 308);
+  assert.equal(response.headers.get("location"), "https://algotradecrypto.com/%D7%A6%D7%95%D7%A8-%D7%A7%D7%A9%D7%A8/?source=www");
+});
+
 test("keeps the legacy blog index available", async () => {
   const response = await render("/blog-2/");
   assert.equal(response.status, 200);
