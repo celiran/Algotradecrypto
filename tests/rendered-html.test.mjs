@@ -30,7 +30,9 @@ test("renders the Signal Glass home page in Hebrew", async () => {
   assert.match(html, /290\+/);
   assert.match(html, /רובוטים וייעוצים/);
   assert.match(html, /לא בטוח איך להתקדם בעולם האלגו בקריפטו\? דבר איתנו/);
-  assert.match(html, />EC</);
+  assert.match(html, /src="\/eliran-cohen-founder\.jpg"/);
+  assert.match(html, /alt="אלירן כהן, מייסד AlgoTradeCrypto ו־AutoSysFX"/);
+  assert.doesNotMatch(html, />EC</);
   assert.doesNotMatch(html, />EK</);
   assert.match(html, /AlgoTradeCrypto/);
   assert.match(html, /class="accessibility-toggle"/);

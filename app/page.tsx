@@ -108,7 +108,14 @@ export default function Home() {
       </section>
 
       <section className="eliran" id="eliran">
-        <div className="portrait-mark" aria-hidden="true"><span>EC</span><i/><b>2007</b><small>ACTIVE IN ALGO SINCE</small></div>
+        <figure className="portrait-mark">
+          {/* Already cropped and compressed for this fixed-size portrait; no runtime image service needed. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/eliran-cohen-founder.jpg" width="900" height="900" loading="lazy" decoding="async" alt="אלירן כהן, מייסד AlgoTradeCrypto ו־AutoSysFX" />
+          <i aria-hidden="true" />
+          <b>2007</b>
+          <small>ACTIVE IN ALGO SINCE</small>
+        </figure>
         <div><p className="eyebrow"><i/> ELIRAN COHEN</p><h2>סוחר קריפטו שמבין קוד.<br/><em>מפתח רובוטים שמבין סוחרים.</em></h2><p>אני אלירן כהן, יזם, מפתח רובוטים למסחר ובעל בית התוכנה AutoSysFX. ב־AlgoTradeCrypto המטרה אינה למכור לכל אחד רובוט קריפטו — אלא לעזור ללמוד, לבחור מערכת מוכנה או לפתח רובוט רק כשיש לכך הצדקה אמיתית.</p><div className="signature">אלירן כהן <span>מייסד AlgoTradeCrypto ו־AutoSysFX</span></div></div>
       </section>
 
