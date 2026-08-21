@@ -111,7 +111,7 @@ export default function Home() {
         <figure className="portrait-mark">
           {/* Already cropped and compressed for this fixed-size portrait; no runtime image service needed. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/eliran-cohen-founder.jpg" width="900" height="900" loading="lazy" decoding="async" alt="אלירן כהן, מייסד AlgoTradeCrypto ו־AutoSysFX" />
+          <img src="/eliran-cohen-founder-expanded.png" width="1254" height="1254" loading="lazy" decoding="async" alt="אלירן כהן, מייסד AlgoTradeCrypto ו־AutoSysFX" />
           <i aria-hidden="true" />
           <b>2007</b>
           <small>ACTIVE IN ALGO SINCE</small>
