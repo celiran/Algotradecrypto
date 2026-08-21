@@ -42,24 +42,6 @@ function setGoogleConsent(analytics: boolean) {
   });
 }
 
-function loadGoogleAnalytics(measurementId: string) {
-  if (!measurementId || document.querySelector("script[data-atc-google-analytics]")) return;
-  ensureGtag();
-  window.gtag?.("consent", "default", {
-    analytics_storage: "granted",
-    ad_storage: "denied",
-    ad_user_data: "denied",
-    ad_personalization: "denied",
-  });
-  window.gtag?.("js", new Date());
-  window.gtag?.("config", measurementId, { anonymize_ip: true });
-  const script = document.createElement("script");
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
-  script.dataset.atcGoogleAnalytics = "true";
-  document.head.appendChild(script);
-}
-
 function clearAnalyticsCookies() {
   document.cookie.split(";").forEach(cookie => {
     const name = cookie.split("=")[0]?.trim();
@@ -81,8 +63,7 @@ export default function CookieConsent({ measurementId = "" }: { measurementId?: 
     const stored = readStoredChoice();
     setChoice(stored);
     setAnalytics(stored?.analytics ?? false);
-    if (stored?.analytics && measurementId) loadGoogleAnalytics(measurementId);
-    if (stored && !stored.analytics) setGoogleConsent(false);
+    if (stored) setGoogleConsent(stored.analytics);
     setReady(true);
     const openSettings = () => {
       const current = readStoredChoice();
@@ -112,8 +93,8 @@ export default function CookieConsent({ measurementId = "" }: { measurementId?: 
     setChoice(next);
     setAnalytics(allowAnalytics);
     setSettingsOpen(false);
-    if (allowAnalytics && measurementId) loadGoogleAnalytics(measurementId);
-    else { setGoogleConsent(false); clearAnalyticsCookies(); }
+    setGoogleConsent(Boolean(allowAnalytics && measurementId));
+    if (!allowAnalytics) clearAnalyticsCookies();
   };
 
   if (!ready) return null;
@@ -123,7 +104,7 @@ export default function CookieConsent({ measurementId = "" }: { measurementId?: 
       <div className="cookie-banner-mark" aria-hidden="true">COOKIES / PRIVACY</div>
       <div className="cookie-banner-copy">
         <h2 id="cookie-banner-title">הפרטיות שלכם. הבחירה שלכם.</h2>
-        <p>האתר משתמש באחסון חיוני להפעלה, אבטחה ושמירת העדפות. Google Analytics יופעל רק אם תאשרו, כדי להבין באופן מצטבר כיצד משתמשים באתר.</p>
+        <p>האתר משתמש באחסון חיוני להפעלה, אבטחה ושמירת העדפות. תג Google Analytics ‏(Google Tag) נטען במצב פרטיות ללא קוקיז; קוקיז Analytics ומדידה מלאה יופעלו רק אם תאשרו.</p>
         <a href="/תקנון-תנאי-שימוש-ומדיניות-פרטיות/">למדיניות הפרטיות ←</a>
       </div>
       <div className="cookie-banner-actions" aria-label="בחירת העדפות קוקיז">
@@ -142,7 +123,7 @@ export default function CookieConsent({ measurementId = "" }: { measurementId?: 
         <p className="cookie-dialog-intro">אפשר לשנות את הבחירה בכל עת. קוקיז חיוניים אינם משמשים לפרסום ואינם ניתנים לכיבוי דרך הבאנר, משום שהם נחוצים לאבטחה ולשמירת ההעדפות שבחרתם.</p>
         <div className="cookie-preference essential"><div><b>אחסון חיוני</b><small>שמירת הסכמה, העדפות נגישות ואבטחת טפסים.</small></div><span>פעיל תמיד</span></div>
         <label className="cookie-preference optional">
-          <div><b>מדידה ו־Analytics</b><small>Google Analytics למדידה מצטברת ושיפור האתר. לא ייטען ללא אישור.</small></div>
+          <div><b>מדידה ו־Analytics</b><small>אישור לקוקיז Analytics ולמדידה מלאה לצורך שיפור האתר.</small></div>
           <input type="checkbox" checked={analytics} onChange={event => setAnalytics(event.target.checked)} aria-label="אישור Google Analytics"/><span className="cookie-switch" aria-hidden="true"/>
         </label>
         <div className="cookie-dialog-actions"><button className="cookie-action primary" type="button" onClick={() => save(analytics)}>שמירת הבחירה</button><button className="cookie-action secondary" type="button" onClick={() => save(false)}>דחיית Analytics</button></div>
@@ -156,7 +137,7 @@ export function CookiePrivacyDisclosure() {
   return <section className="cookie-policy-disclosure" aria-labelledby="cookie-policy-heading">
     <p>PRIVACY / COOKIES</p>
     <h2 id="cookie-policy-heading">קוקיז והעדפות מדידה</h2>
-    <p>האתר שומר במכשיר מידע חיוני לצורך שמירת בחירת הפרטיות והעדפות הנגישות. Google Analytics, ככל שיוגדר באתר, ייטען רק לאחר אישור מפורש בפופאפ. בחירה ב״חיוניים בלבד״ אינה מגבילה את הגלישה באתר.</p>
+    <p>האתר שומר במכשיר מידע חיוני לצורך שמירת בחירת הפרטיות והעדפות הנגישות. תג Google Analytics ‏(Google Tag) נטען במצב Consent Mode כאשר אחסון Analytics ופרסום מוגדרים כברירת מחדל כ״נדחה״. במצב זה לא נוצרים קוקיז Analytics; קוקיז ומדידה מלאה מופעלים רק לאחר אישור מפורש בפופאפ. בחירה ב״חיוניים בלבד״ אינה מגבילה את הגלישה באתר.</p>
     <p>בחירת ההסכמה נשמרת למשך עד שישה חודשים. ניתן לפתוח מחדש את הפופאפ ולשנות את הבחירה באמצעות הכפתור הבא.</p>
     <button type="button" onClick={() => window.dispatchEvent(new Event(OPEN_SETTINGS_EVENT))}>פתיחת הגדרות הפרטיות</button>
   </section>;

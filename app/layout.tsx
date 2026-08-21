@@ -4,7 +4,7 @@ import CookieConsent from "./components/cookie-consent";
 import WhatsappFloatingButton from "./components/whatsapp-floating-button";
 import "./globals.css";
 
-const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-NQV6NBMXV2";
+const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-W25JS30BVY";
 const publicSiteUrl = "https://algotradecrypto.com";
 const socialImage = "/signal-glass-og.png";
 
@@ -31,5 +31,25 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#050a0e", colorScheme: "dark light" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="he" dir="rtl"><body><div id="main-content">{children}</div><WhatsappFloatingButton/><AccessibilityTools/><CookieConsent measurementId={googleAnalyticsId}/></body></html>;
+  const consentBootstrap = `
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    window.gtag = window.gtag || gtag;
+    gtag('consent', 'default', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      wait_for_update: 500
+    });
+    gtag('js', new Date());
+    gtag('config', '${googleAnalyticsId}', { anonymize_ip: true });
+    var googleTag = document.createElement('script');
+    googleTag.async = true;
+    googleTag.src = 'https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(googleAnalyticsId)}';
+    googleTag.setAttribute('data-atc-google-analytics', 'true');
+    document.head.appendChild(googleTag);
+  `;
+
+  return <html lang="he" dir="rtl"><head><script id="google-consent-default" dangerouslySetInnerHTML={{__html:consentBootstrap}}/></head><body><div id="main-content">{children}</div><WhatsappFloatingButton/><AccessibilityTools/><CookieConsent measurementId={googleAnalyticsId}/></body></html>;
 }

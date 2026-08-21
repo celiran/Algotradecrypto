@@ -311,9 +311,13 @@ test("includes cookie disclosure in the privacy policy and keeps analytics behin
   const layoutSource = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
   const consentSource = await readFile(new URL("../app/components/cookie-consent.tsx", import.meta.url), "utf8");
   const globalStyles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
-  assert.doesNotMatch(layoutSource, /googletagmanager\.com/);
+  assert.match(layoutSource, /G-W25JS30BVY/);
+  assert.match(layoutSource, /googletagmanager\.com\/gtag\/js\?id=/);
+  assert.match(layoutSource, /analytics_storage: 'denied'/);
+  assert.match(layoutSource, /ad_storage: 'denied'/);
   assert.match(layoutSource, /<CookieConsent/);
   assert.match(consentSource, /analytics_storage: analytics \? "granted" : "denied"/);
+  assert.match(consentSource, /setGoogleConsent\(stored\.analytics\)/);
   assert.match(consentSource, /חיוניים בלבד/);
   assert.match(consentSource, /דחיית Analytics/);
   assert.doesNotMatch(globalStyles, /\.site-footer,\.legacy-footer\{padding-bottom:/);
