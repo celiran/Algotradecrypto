@@ -209,6 +209,8 @@ test("renders the contact intake and exposes a safe local Cloudflare configurati
   assert.equal(pageResponse.status, 200);
   const html = await pageResponse.text();
   assert.match(html, /במה תרצו להתמקד/);
+  assert.match(html, /href="mailto:support@algotradecrypto\.com"/);
+  assert.match(html, />support@algotradecrypto\.com</);
   assert.match(html, /Cloudflare Turnstile מוכן לחיבור/);
   assert.match(html, /אין לשלוח סיסמאות, מפתחות API או פרטי גישה/);
 
@@ -279,7 +281,10 @@ test("keeps the legal pages clean and provides a top return control", async () =
 test("keeps the accessibility declaration return control at the top", async () => {
   const response = await render("/%D7%94%D7%A6%D7%94%D7%A8%D7%AA-%D7%A0%D7%92%D7%99%D7%A9%D7%95%D7%AA/");
   assert.equal(response.status, 200);
-  assert.match(await response.text(), /class="info-top-back" href="\/">← חזרה לדף הבית<\/a>/);
+  const html = await response.text();
+  assert.match(html, /class="info-top-back" href="\/">← חזרה לדף הבית<\/a>/);
+  assert.match(html, /support@algotradecrypto\.com/);
+  assert.doesNotMatch(html, /eliran@autosysfx\.com/i);
 });
 
 test("includes cookie disclosure in the privacy policy and keeps analytics behind consent", async () => {
@@ -289,6 +294,8 @@ test("includes cookie disclosure in the privacy policy and keeps analytics behin
   assert.match(html, /קוקיז והעדפות מדידה/);
   assert.match(html, /Google Analytics/);
   assert.match(html, /עד שישה חודשים/);
+  assert.match(html, /support@algotradecrypto\.com/);
+  assert.doesNotMatch(html, /eliran@autosysfx\.com/i);
 
   const layoutSource = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
   const consentSource = await readFile(new URL("../app/components/cookie-consent.tsx", import.meta.url), "utf8");

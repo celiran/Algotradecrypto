@@ -55,7 +55,7 @@ const paths = [
 
 export default function Home() {
   const latest = legacyPosts.slice(0, 3);
-  const jsonLd = {"@context":"https://schema.org","@type":"ProfessionalService",name:"AlgoTradeCrypto",url:"https://algotradecrypto.com/",description:"המרכז הישראלי ללימוד, בחירה והקמה של פתרונות מסחר אוטומטי בקריפטו",founder:{"@type":"Person",name:"אלירן כהן"},email:"eliran@autosysfx.com",telephone:"+972-52-824-9299",areaServed:"IL"};
+  const jsonLd = {"@context":"https://schema.org","@type":"ProfessionalService",name:"AlgoTradeCrypto",url:"https://algotradecrypto.com/",description:"המרכז הישראלי ללימוד, בחירה והקמה של פתרונות מסחר אוטומטי בקריפטו",founder:{"@type":"Person",name:"אלירן כהן"},email:"support@algotradecrypto.com",telephone:"+972-52-824-9299",areaServed:"IL"};
   return (
     <main className="site-shell">
       <Script id="organization-schema" type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}} />

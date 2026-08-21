@@ -30,7 +30,7 @@ declare global {
   }
 }
 
-const supportEmail = "eliran@autosysfx.com";
+const supportEmail = "support@algotradecrypto.com";
 const defaultError = `לא הצלחנו לשלוח את הפנייה כרגע. אפשר לנסות שוב או לכתוב ל־${supportEmail}.`;
 
 export default function ContactForm() {

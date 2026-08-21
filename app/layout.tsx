@@ -4,7 +4,7 @@ import CookieConsent from "./components/cookie-consent";
 import WhatsappFloatingButton from "./components/whatsapp-floating-button";
 import "./globals.css";
 
-const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const googleAnalyticsId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-NQV6NBMXV2";
 const publicSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://algotradecrypto.com";
 const socialImage = "/signal-glass-og.png";
 

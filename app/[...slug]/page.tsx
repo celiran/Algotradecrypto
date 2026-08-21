@@ -12,6 +12,7 @@ const normalize=(parts:string[])=>parts.map(part=>{try{return decodeURIComponent
 const findPost=(parts:string[])=>legacyPosts.find(post=>post.slug===parts[0]);
 const findPage=(parts:string[])=>legacyPages.find(page=>page.slug===parts[0]);
 const cleanLegacyTitle=(title:string)=>title.replaceAll("\uFFFC","").trim();
+const normalizeLegacyPageHtml=(html:string)=>html.replace(/eliran@autosysfx\.com/gi,"support@algotradecrypto.com");
 
 export async function generateMetadata({params}:Props):Promise<Metadata>{
   const parts=normalize((await params).slug);const info=infoRoutes[parts[0]];const post=findPost(parts);const page=findPage(parts);const path=`/${parts.map(encodeURIComponent).join("/")}/`;
@@ -26,7 +27,7 @@ export async function generateMetadata({params}:Props):Promise<Metadata>{
 export default async function LegacyRoute({params}:Props){
   const parts=normalize((await params).slug);const info=infoRoutes[parts[0]];if(info)return info.content();
   const post=findPost(parts);if(post){if(parts.length>1)permanentRedirect(`/${encodeURIComponent(post.slug)}/`);return <ArticlePage post={post}/>;}
-  const page=findPage(parts);if(page)return <main className="legacy-site"><LegacyHeader/><article className="legacy-page"><a className="legal-page-back" href="/">← חזרה לדף הבית</a><h1>{cleanLegacyTitle(page.title)}</h1>{page.slug==="תקנון-תנאי-שימוש-ומדיניות-פרטיות"&&<CookiePrivacyDisclosure/>}<div className="legacy-page-body" dangerouslySetInnerHTML={{__html:page.content}}/></article><LegacyFooter/></main>;
+  const page=findPage(parts);if(page)return <main className="legacy-site"><LegacyHeader/><article className="legacy-page"><a className="legal-page-back" href="/">← חזרה לדף הבית</a><h1>{cleanLegacyTitle(page.title)}</h1>{page.slug==="תקנון-תנאי-שימוש-ומדיניות-פרטיות"&&<CookiePrivacyDisclosure/>}<div className="legacy-page-body" dangerouslySetInnerHTML={{__html:normalizeLegacyPageHtml(page.content)}}/></article><LegacyFooter/></main>;
   const isArchive=parts[0]==="tag"||parts[0]==="category"||parts[0]==="author"||(parts[0]==="blog-2"&&parts[1]==="2");
   if(isArchive){const label=parts[0]==="blog-2"?"מרכז הידע — עמוד 2":parts.at(-1)?.replaceAll("-"," ");return <main className="legacy-site"><LegacyHeader/><section className="archive-title"><p>LEGACY ARCHIVE</p><h1>{label}</h1></section><section className="blog-grid archive-grid">{legacyPosts.map(item=><ArticleCard post={item} key={item.id}/>)}</section><LegacyFooter/></main>}
   notFound();

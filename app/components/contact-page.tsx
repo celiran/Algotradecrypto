@@ -20,7 +20,7 @@ export default function ContactPage() {
           <h1>בואו נדייק<br/><span>את הכיוון.</span></h1>
           <p className="crypto-contact-lead">ספרו לנו מה אתם רוצים להשיג בעולם האלגו בקריפטו. נבדוק יחד אם נכון ללמוד לבנות, לבחור מערכת מוכנה או לצאת לפיתוח מותאם.</p>
           <div className="crypto-contact-cards" aria-label="אפשרויות יצירת קשר">
-            <article><div><span><ContactIcon type="mail"/></span><h2>אימייל</h2></div><p>לפנייה מפורטת או לצירוף מידע על האסטרטגיה.</p><a href="mailto:eliran@autosysfx.com" dir="ltr">eliran@autosysfx.com</a></article>
+            <article><div><span><ContactIcon type="mail"/></span><h2>אימייל</h2></div><p>לפנייה מפורטת או לצירוף מידע על האסטרטגיה.</p><a href="mailto:support@algotradecrypto.com" dir="ltr">support@algotradecrypto.com</a></article>
             <article><div><span><ContactIcon type="path"/></span><h2>מה קורה אחרי הפנייה?</h2></div><p>נעבור על הצורך, נזהה את המסלול המתאים ואם יש התאמה — נמשיך לשיחת אפיון ממוקדת.</p></article>
             <article className="is-whatsapp"><div><span><ContactIcon type="whatsapp"/></span><h2>WhatsApp</h2></div><p>מעדיפים להתחיל בהודעה קצרה? אפשר לפנות ישירות לאלירן.</p><a href={whatsappUrl} target="_blank" rel="noreferrer">שליחת הודעה ב־WhatsApp ↗</a></article>
           </div>
