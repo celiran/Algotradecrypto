@@ -17,6 +17,12 @@ const localBindingConfig = {
   // Runtime variables and secrets are managed in the Cloudflare dashboard.
   // Preserve them when Git-connected builds deploy a new Worker version.
   keep_vars: true,
+  send_email: [
+    {
+      name: "EMAIL",
+      allowed_sender_addresses: ["support@algotradecrypto.com"],
+    },
+  ],
   d1_databases: d1
     ? [
         {
