@@ -34,6 +34,12 @@ declare global {
 const supportEmail = "support@algotradecrypto.com";
 const defaultError = `לא הצלחנו לשלוח את הפנייה כרגע. אפשר לנסות שוב או לכתוב ל־${supportEmail}.`;
 
+function sanitizeFieldValue(value: FormDataEntryValue | null): string {
+  if (typeof value !== "string") return "";
+  const trimmed = value.trim();
+  return /^(null|undefined)$/i.test(trimmed) ? "" : trimmed;
+}
+
 export default function ContactForm() {
   const [config, setConfig] = useState<ContactConfig | null>(null);
   const [status, setStatus] = useState<FormStatus>("idle");
@@ -41,6 +47,24 @@ export default function ContactForm() {
   const [turnstileToken, setTurnstileToken] = useState("");
   const turnstileContainer = useRef<HTMLDivElement>(null);
   const turnstileWidgetId = useRef<string | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    const clearRestoredNullValues = () => {
+      formRef.current?.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>("input, textarea, select").forEach((field) => {
+        if (/^(null|undefined)$/i.test(field.value.trim())) field.value = "";
+      });
+    };
+    clearRestoredNullValues();
+    const frame = window.requestAnimationFrame(clearRestoredNullValues);
+    const timer = window.setTimeout(clearRestoredNullValues, 600);
+    window.addEventListener("pageshow", clearRestoredNullValues);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
+      window.removeEventListener("pageshow", clearRestoredNullValues);
+    };
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -118,6 +142,12 @@ export default function ContactForm() {
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const fullName = sanitizeFieldValue(formData.get("fullName"));
+    const email = sanitizeFieldValue(formData.get("email"));
+    const phone = sanitizeFieldValue(formData.get("phone"));
+    const interest = sanitizeFieldValue(formData.get("interest"));
+    const message = sanitizeFieldValue(formData.get("message"));
+    const website = sanitizeFieldValue(formData.get("website"));
     setStatus("submitting");
     setStatusMessage("");
 
@@ -126,12 +156,12 @@ export default function ContactForm() {
         method: "POST",
         headers: { Accept: "application/json", "Content-Type": "application/json" },
         body: JSON.stringify({
-          fullName: formData.get("fullName"),
-          email: formData.get("email"),
-          phone: formData.get("phone"),
-          interest: formData.get("interest"),
-          message: formData.get("message"),
-          website: formData.get("website"),
+          fullName,
+          email,
+          phone,
+          interest,
+          message,
+          website,
           privacy: formData.get("privacy") === "on",
           turnstileToken,
         }),
@@ -140,7 +170,7 @@ export default function ContactForm() {
       if (!response.ok || !result?.success) throw new Error(result?.message || defaultError);
       trackAnalyticsEvent("generate_lead", {
         method: "contact_form",
-        lead_type: String(formData.get("interest") || "unknown"),
+        lead_type: interest || "unknown",
       });
       form.reset();
       setStatus("success");
@@ -160,7 +190,7 @@ export default function ContactForm() {
   }
 
   const isSubmitting = status === "submitting";
-  return <form className="crypto-contact-form" onSubmit={handleSubmit}>
+  return <form ref={formRef} className="crypto-contact-form" onSubmit={handleSubmit}>
     <div className="crypto-contact-fields">
       <div className="crypto-contact-field"><label htmlFor="fullName">שם מלא <span aria-hidden="true">*</span></label><input id="fullName" name="fullName" type="text" autoComplete="name" minLength={2} maxLength={80} placeholder="איך לפנות אליכם?" required/></div>
       <div className="crypto-contact-field"><label htmlFor="email">כתובת מייל <span aria-hidden="true">*</span></label><input id="email" name="email" type="email" inputMode="email" autoComplete="email" maxLength={160} placeholder="name@example.com" dir="ltr" required/></div>

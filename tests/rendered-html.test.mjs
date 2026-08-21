@@ -325,6 +325,8 @@ test("includes cookie disclosure in the privacy policy and keeps analytics behin
   assert.match(analyticsEventsSource, /contact_click/);
   assert.match(analyticsEventsSource, /contact_navigation/);
   assert.match(contactFormSource, /trackAnalyticsEvent\("generate_lead"/);
+  assert.match(contactFormSource, /sanitizeFieldValue/);
+  assert.match(contactFormSource, /\^\(null\|undefined\)\$/);
   assert.doesNotMatch(globalStyles, /\.site-footer,\.legacy-footer\{padding-bottom:/);
   assert.match(globalStyles, /\.whatsapp-floating-button\{position:fixed;z-index:120;right:18px;bottom:148px/);
   assert.doesNotMatch(globalStyles, /data-cookie-banner-open[^}]+visibility:hidden/);
