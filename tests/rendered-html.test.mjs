@@ -246,7 +246,7 @@ test("validates and sends a configured contact request through the Worker bindin
       email: "visitor@example.com",
       phone: "050-0000000",
       interest: "custom-development",
-      message: "אני רוצה לבדוק התאמה לפיתוח רובוט קריפטו מותאם.",
+      message: "אני רוצה לבדוק התאמה לפיתוח רובוט קריפטו מותאם.\nחשוב לי לקבל פירוט מלא <ובטוח>.",
       website: "",
       privacy: true,
       turnstileToken: "",
@@ -257,6 +257,11 @@ test("validates and sends a configured contact request through the Worker bindin
   assert.equal(sentMessages.length, 1);
   assert.equal(sentMessages[0].replyTo, "visitor@example.com");
   assert.match(sentMessages[0].text, /פיתוח רובוט קריפטו מותאם/);
+  assert.match(sentMessages[0].text, /--- תוכן הפנייה ---\nאני רוצה לבדוק התאמה לפיתוח רובוט קריפטו מותאם\.\nחשוב לי לקבל פירוט מלא <ובטוח>\./);
+  assert.match(sentMessages[0].html, /תוכן הפנייה/);
+  assert.match(sentMessages[0].html, /אני רוצה לבדוק התאמה לפיתוח רובוט קריפטו מותאם\./);
+  assert.match(sentMessages[0].html, /חשוב לי לקבל פירוט מלא &lt;ובטוח&gt;\./);
+  assert.doesNotMatch(sentMessages[0].html, /<ובטוח>/);
 });
 
 test("requires a Turnstile token when Cloudflare protection is configured", async () => {

@@ -11,6 +11,7 @@ interface Env {
       from: string;
       subject: string;
       text: string;
+      html?: string;
       replyTo?: string;
     }): Promise<{ messageId?: string }>;
   };
@@ -58,6 +59,15 @@ function cleanSingleLine(value: unknown, maxLength: number): string {
     .join("")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 async function handleContactRequest(request: Request, env: Env): Promise<Response> {
@@ -131,12 +141,58 @@ async function handleContactRequest(request: Request, env: Env): Promise<Respons
   }
 
   try {
+    const submittedAt = new Date().toLocaleString("he-IL", { timeZone: "Asia/Jerusalem" });
+    const interestLabel = interestLabels[interest];
+    const plainText = [
+      "פנייה חדשה מטופס יצירת הקשר באתר AlgoTradeCrypto",
+      "===============================================",
+      "",
+      `שם מלא: ${fullName}`,
+      `מייל לחזרה: ${email}`,
+      `טלפון: ${phone || "לא נמסר"}`,
+      `נושא הפנייה: ${interestLabel}`,
+      `נשלח בתאריך: ${submittedAt}`,
+      "",
+      "--- תוכן הפנייה ---",
+      message,
+      "--- סוף תוכן הפנייה ---",
+    ].join("\n");
+    const html = `<!doctype html>
+<html lang="he" dir="rtl">
+  <body style="margin:0;background:#f3f7f5;color:#102b31;font-family:Arial,sans-serif;direction:rtl;text-align:right">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f3f7f5;padding:28px 12px">
+      <tr><td align="center">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:680px;background:#ffffff;border:1px solid #c8d8d1;border-top:5px solid #168461">
+          <tr><td style="padding:28px 32px 18px">
+            <div style="font-size:12px;letter-spacing:.08em;color:#168461;font-weight:700">ALGOTRADECRYPTO / CONTACT</div>
+            <h1 style="margin:10px 0 0;font-size:26px;line-height:1.35;color:#102b31">פנייה חדשה מהאתר</h1>
+          </td></tr>
+          <tr><td style="padding:0 32px 24px">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;font-size:15px;line-height:1.7">
+              <tr><td style="width:130px;padding:7px 0;color:#61766f">שם מלא</td><td style="padding:7px 0;font-weight:700">${escapeHtml(fullName)}</td></tr>
+              <tr><td style="padding:7px 0;color:#61766f">מייל לחזרה</td><td style="padding:7px 0"><a href="mailto:${escapeHtml(email)}" style="color:#08795d;font-weight:700">${escapeHtml(email)}</a></td></tr>
+              <tr><td style="padding:7px 0;color:#61766f">טלפון</td><td style="padding:7px 0">${escapeHtml(phone || "לא נמסר")}</td></tr>
+              <tr><td style="padding:7px 0;color:#61766f">נושא הפנייה</td><td style="padding:7px 0">${escapeHtml(interestLabel)}</td></tr>
+              <tr><td style="padding:7px 0;color:#61766f">מועד השליחה</td><td style="padding:7px 0">${escapeHtml(submittedAt)}</td></tr>
+            </table>
+          </td></tr>
+          <tr><td style="padding:0 32px 32px">
+            <div style="margin-bottom:9px;font-size:13px;color:#168461;font-weight:700">תוכן הפנייה</div>
+            <div style="padding:20px;background:#eef5f1;border-right:4px solid #4ef2b1;font-size:17px;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere">${escapeHtml(message)}</div>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </body>
+</html>`;
+
     await env.EMAIL!.send({
       to: env.CONTACT_DESTINATION_EMAIL!,
       from: env.CONTACT_FROM_EMAIL!,
       replyTo: email,
       subject: `פנייה חדשה מ־AlgoTradeCrypto — ${fullName}`,
-      text: ["פנייה חדשה מטופס יצירת הקשר באתר AlgoTradeCrypto", "", `שם: ${fullName}`, `מייל: ${email}`, `טלפון: ${phone || "לא נמסר"}`, `נושא: ${interestLabels[interest]}`, "", "הודעה:", message].join("\n"),
+      text: plainText,
+      html,
     });
     return json({ success: true });
   } catch {
