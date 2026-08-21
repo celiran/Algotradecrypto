@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { trackAnalyticsEvent } from "./analytics-events";
 
 type ContactConfig = {
   configured: boolean;
@@ -137,6 +138,10 @@ export default function ContactForm() {
       });
       const result = (await response.json().catch(() => null)) as { success?: boolean; message?: string } | null;
       if (!response.ok || !result?.success) throw new Error(result?.message || defaultError);
+      trackAnalyticsEvent("generate_lead", {
+        method: "contact_form",
+        lead_type: String(formData.get("interest") || "unknown"),
+      });
       form.reset();
       setStatus("success");
       setStatusMessage("הפנייה נשלחה. נחזור אליכם לאחר שנעבור על הפרטים.");

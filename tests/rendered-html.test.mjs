@@ -310,6 +310,8 @@ test("includes cookie disclosure in the privacy policy and keeps analytics behin
 
   const layoutSource = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
   const consentSource = await readFile(new URL("../app/components/cookie-consent.tsx", import.meta.url), "utf8");
+  const analyticsEventsSource = await readFile(new URL("../app/components/analytics-events.tsx", import.meta.url), "utf8");
+  const contactFormSource = await readFile(new URL("../app/components/contact-form.tsx", import.meta.url), "utf8");
   const globalStyles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.match(layoutSource, /G-W25JS30BVY/);
   assert.match(layoutSource, /googletagmanager\.com\/gtag\/js\?id=/);
@@ -320,6 +322,9 @@ test("includes cookie disclosure in the privacy policy and keeps analytics behin
   assert.match(consentSource, /setGoogleConsent\(stored\.analytics\)/);
   assert.match(consentSource, /חיוניים בלבד/);
   assert.match(consentSource, /דחיית Analytics/);
+  assert.match(analyticsEventsSource, /contact_click/);
+  assert.match(analyticsEventsSource, /contact_navigation/);
+  assert.match(contactFormSource, /trackAnalyticsEvent\("generate_lead"/);
   assert.doesNotMatch(globalStyles, /\.site-footer,\.legacy-footer\{padding-bottom:/);
   assert.match(globalStyles, /\.whatsapp-floating-button\{position:fixed;z-index:120;right:18px;bottom:148px/);
   assert.doesNotMatch(globalStyles, /data-cookie-banner-open[^}]+visibility:hidden/);

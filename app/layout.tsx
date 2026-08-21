@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import AccessibilityTools from "./components/accessibility-tools";
+import AnalyticsEvents from "./components/analytics-events";
 import CookieConsent from "./components/cookie-consent";
 import WhatsappFloatingButton from "./components/whatsapp-floating-button";
 import "./globals.css";
@@ -51,5 +52,5 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     document.head.appendChild(googleTag);
   `;
 
-  return <html lang="he" dir="rtl"><head><script id="google-consent-default" dangerouslySetInnerHTML={{__html:consentBootstrap}}/></head><body><div id="main-content">{children}</div><WhatsappFloatingButton/><AccessibilityTools/><CookieConsent measurementId={googleAnalyticsId}/></body></html>;
+  return <html lang="he" dir="rtl"><head><script id="google-consent-default" dangerouslySetInnerHTML={{__html:consentBootstrap}}/></head><body><div id="main-content">{children}</div><WhatsappFloatingButton/><AccessibilityTools/><CookieConsent measurementId={googleAnalyticsId}/><AnalyticsEvents/></body></html>;
 }
